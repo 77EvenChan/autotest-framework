@@ -1,0 +1,30 @@
+# 测试环境配置
+base_url: "http://localhost:8000"
+
+# 测试账号
+admin:
+  username: "testadmin"
+  password: "Test@123456"
+
+member:
+  username: "testmember"
+  password: "Test@123456"
+
+# 数据库配置（用于测试数据清理）
+database:
+  host: "127.0.0.1"
+  port: 3306
+  user: "taskflow"
+  password: "taskflow123"
+  name: "taskflow"
+
+# Redis配置
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  password: "redis123"
+
+# 日志配置
+logging:
+  level: "INFO"
+  log_file: "reports/test.log"

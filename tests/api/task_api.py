@@ -34,7 +34,7 @@ class TaskApi(BaseApi):
     def update_status(self, task_id: int, status: str):
         return self.put(f"/api/tasks/{task_id}/status", {"status": status})
 
-    def delete(self, task_id: int):
+    def delete_task(self, task_id: int):
         return self.delete(f"/api/tasks/{task_id}")
 
     def add_comment(self, task_id: int, content: str):

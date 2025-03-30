@@ -10,4 +10,5 @@ def load_config() -> dict:
         config_path = Path(__file__).parent / "config.yaml"
         with open(config_path, "r", encoding="utf-8") as f:
             _config = yaml.safe_load(f)
-        return _config
+
+    return _config

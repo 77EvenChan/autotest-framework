@@ -24,7 +24,7 @@ class ProjectApi(BaseApi):
             data["description"] = description
         return self.put(f"/api/projects/{project_id}", data)
 
-    def delete(self, project_id: int):
+    def delete_project(self, project_id: int):
         return self.delete(f"/api/projects/{project_id}")
 
     def add_member(self, project_id: int, username: str, role: str = "member"):

@@ -6,7 +6,7 @@ _config = None  # 缓存，只读一次文件
 def load_config() -> dict:
     """加载配置"""
     global _config
-    if _config in None:
+    if _config is None:
         config_path = Path(__file__).parent / "config.yaml"
         with open(config_path, "r", encoding="utf-8") as f:
             _config = yaml.safe_load(f)

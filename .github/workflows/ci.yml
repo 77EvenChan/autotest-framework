@@ -68,6 +68,27 @@ jobs:
       - name: 安装 SUT 依赖
         run: pip install -r sut/requirements.txt
 
+      - name: 等待数据库完全就绪
+        run: |
+          echo "等待 MySQL 数据库和用户初始化完成..."
+          for i in $(seq 1 30); do
+            if python -c "
+          import pymysql
+          try:
+              conn = pymysql.connect(host='127.0.0.1', port=3306, user='taskflow', password='taskflow123', database='taskflow')
+              conn.close()
+              print('OK')
+          except Exception as e:
+              print(f'FAIL: {e}')
+              exit(1)
+          " 2>/dev/null; then
+              echo "MySQL 已就绪"
+              break
+            fi
+            echo "等待中... ($i/30)"
+            sleep 3
+          done
+
       - name: 启动 SUT（后台运行）
         env:
           DB_HOST: 127.0.0.1
@@ -91,6 +112,8 @@ jobs:
             echo "等待 SUT 启动... ($i/30)"
             sleep 2
           done
+          echo "=== SUT 启动日志 ==="
+          cat /tmp/sut.log
 
       # Step 5: 运行测试
       - name: 运行 pytest

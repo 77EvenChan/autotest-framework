@@ -17,6 +17,10 @@ security = HTTPBearer()
 
 
 def hash_password(password: str) -> str:
+    # bcrypt 限制密码最长72字节，超长则截断
+    pwd_bytes = password.encode("utf-8")
+    if len(pwd_bytes) > 72:
+        password = pwd_bytes[:72].decode("utf-8", errors="ignore")
     return pwd_context.hash(password)
 
 

@@ -38,10 +38,11 @@ jobs:
 
       redis:
         image: redis:7
+        command: redis-server --requirepass redis123
         ports:
           - 6379:6379
         options: >-
-          --health-cmd="redis-cli ping"
+          --health-cmd="redis-cli -a redis123 ping"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5

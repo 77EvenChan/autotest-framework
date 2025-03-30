@@ -1,0 +1,45 @@
+# 创建任务接口测试数据 — 数据驱动
+cases:
+  # === 正向用例 ===
+  - case_id: "TASK_001"
+    title: "正常创建-P2默认优先级"
+    task_title: "数据驱动任务1"
+    priority: "P2"
+    description: "自动化数据驱动测试"
+    expected_code: 200
+
+  - case_id: "TASK_002"
+    title: "创建P0紧急任务"
+    task_title: "线上紧急修复"
+    priority: "P0"
+    description: "用户反馈线上崩溃"
+    expected_code: 200
+
+  - case_id: "TASK_003"
+    title: "创建P1高优任务"
+    task_title: "性能优化"
+    priority: "P1"
+    description: ""
+    expected_code: 200
+
+  # === 异常用例 ===
+  - case_id: "TASK_004"
+    title: "title为空"
+    task_title: ""
+    priority: "P2"
+    description: ""
+    expected_code: 422
+
+  - case_id: "TASK_005"
+    title: "priority非法值"
+    task_title: "非法优先级"
+    priority: "P5"
+    description: ""
+    expected_code: 422
+
+  - case_id: "TASK_006"
+    title: "priority为数字"
+    task_title: "数字优先级"
+    priority: 123
+    description: ""
+    expected_code: 422

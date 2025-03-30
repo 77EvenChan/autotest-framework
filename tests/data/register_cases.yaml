@@ -1,0 +1,70 @@
+# 注册接口测试数据 — 数据驱动
+cases:
+  # === 正向用例 ===
+  - case_id: "REG_001"
+    title: "正常注册"
+    username: "dd_user_001"
+    password: "Test@123"
+    email: "dd_user_001@test.com"
+    expected_code: 200
+    expected_msg_contains: ""
+
+  # === 用户名校验 ===
+  - case_id: "REG_002"
+    title: "用户名为空"
+    username: ""
+    password: "Test@123"
+    email: "empty@test.com"
+    expected_code: 422
+    expected_msg_contains: ""
+
+  - case_id: "REG_003"
+    title: "用户名包含特殊字符"
+    username: "user@#$"
+    password: "Test@123"
+    email: "bad@test.com"
+    expected_code: 400
+    expected_msg_contains: "字母"
+
+  - case_id: "REG_004"
+    title: "用户名仅1个字符"
+    username: "a"
+    password: "Test@123"
+    email: "short@test.com"
+    expected_code: 422
+    expected_msg_contains: ""
+
+  # === 密码校验 ===
+  - case_id: "REG_005"
+    title: "密码为空"
+    username: "dd_nopwd"
+    password: ""
+    email: "nopwd@test.com"
+    expected_code: 422
+    expected_msg_contains: ""
+
+  - case_id: "REG_006"
+    title: "密码过短"
+    username: "dd_shortpwd"
+    password: "123"
+    email: "shortpwd@test.com"
+    expected_code: 422
+    expected_msg_contains: ""
+
+  # === 邮箱校验 ===
+  - case_id: "REG_007"
+    title: "邮箱格式错误"
+    username: "dd_badmail"
+    password: "Test@123"
+    email: "not-an-email"
+    expected_code: 400
+    expected_msg_contains: "邮箱"
+
+  # === 重复注册 ===
+  - case_id: "REG_008"
+    title: "用户名已存在"
+    username: "testadmin"
+    password: "Test@123"
+    email: "dup@test.com"
+    expected_code: 400
+    expected_msg_contains: "已存在"

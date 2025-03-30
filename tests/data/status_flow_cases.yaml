@@ -1,0 +1,45 @@
+# 任务状态流转测试数据 — 数据驱动
+cases:
+  # === 合法流转 ===
+  - case_id: "FLOW_001"
+    title: "todo → in_progress"
+    from_status: "todo"
+    to_status: "in_progress"
+    expected_code: 200
+
+  - case_id: "FLOW_002"
+    title: "in_progress → done"
+    from_status: "in_progress"
+    to_status: "done"
+    expected_code: 200
+
+  - case_id: "FLOW_003"
+    title: "done → archived"
+    from_status: "done"
+    to_status: "archived"
+    expected_code: 200
+
+  # === 非法流转 ===
+  - case_id: "FLOW_004"
+    title: "todo → done（跳过in_progress）"
+    from_status: "todo"
+    to_status: "done"
+    expected_code: 400
+
+  - case_id: "FLOW_005"
+    title: "todo → archived（跳过中间状态）"
+    from_status: "todo"
+    to_status: "archived"
+    expected_code: 400
+
+  - case_id: "FLOW_006"
+    title: "done → in_progress（逆向流转）"
+    from_status: "done"
+    to_status: "in_progress"
+    expected_code: 200
+
+  - case_id: "FLOW_007"
+    title: "archived → todo（已归档不能回退）"
+    from_status: "archived"
+    to_status: "todo"
+    expected_code: 400

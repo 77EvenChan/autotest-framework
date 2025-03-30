@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# 虚拟环境
+venv/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# 环境变量
+.env
+
+# Docker 数据
+mysql-data/
+
+# 测试报告
+reports/
+allure-results/
+allure-report/
+
+# OS
+Thumbs.db
+.DS_Store

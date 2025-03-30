@@ -1,0 +1,60 @@
+# docker-compose.ci.yml — CI/CD 专用编排（一键拉起全部服务 + 跑测试）
+# 用法：docker-compose -f docker-compose.ci.yml up --build --abort-on-container-exit
+
+services:
+  # ──── 基础设施 ────
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: taskflow
+      MYSQL_USER: taskflow
+      MYSQL_PASSWORD: taskflow123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass redis123
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redis123", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ──── 被测系统 ────
+  sut:
+    build:
+      context: ./sut
+      dockerfile: Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: mysql+pymysql://taskflow:taskflow123@mysql:3306/taskflow
+      REDIS_URL: redis://redis:6379/0
+      REDIS_PASSWORD: redis123
+      JWT_SECRET: ci-secret-key
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ──── 测试执行器 ────
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      sut:
+        condition: service_healthy
+    environment:
+      BASE_URL: http://sut:8000
+    volumes:
+      - ./reports:/app/reports  # 测试报告挂载到宿主机

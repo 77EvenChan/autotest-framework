@@ -1,8 +1,11 @@
 """认证接口测试用例 — 注册/登录/Token刷新"""
 import pytest
+import allure
 from tests.api.auth_api import AuthApi
 
 
+@allure.epic("认证模块")
+@allure.feature("注册接口")
 class TestRegister:
     """注册接口 POST /api/auth/register"""
 
@@ -54,6 +57,8 @@ class TestRegister:
         assert "字母" in data["msg"] or "下划线" in data["msg"]
 
 
+@allure.epic("认证模块")
+@allure.feature("登录接口")
 class TestLogin:
     """登录接口 POST /api/auth/login"""
 
@@ -97,6 +102,8 @@ class TestLogin:
         assert me_data.get("username") == "testadmin"
 
 
+@allure.epic("认证模块")
+@allure.feature("Token刷新")
 class TestRefreshToken:
     """刷新Token接口 POST /api/auth/refresh"""
 

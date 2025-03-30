@@ -1,9 +1,12 @@
 """任务管理接口测试用例"""
 import pytest
+import allure
 from tests.api.task_api import TaskApi
 from tests.api.project_api import ProjectApi
 
 
+@allure.epic("任务模块")
+@allure.feature("创建任务")
 class TestCreateTask:
     """创建任务 POST /api/tasks"""
 
@@ -67,6 +70,8 @@ class TestCreateTask:
         assert task_id in task_ids
 
 
+@allure.epic("任务模块")
+@allure.feature("任务列表")
 class TestListTasks:
     """任务列表 GET /api/tasks"""
 
@@ -114,6 +119,8 @@ class TestListTasks:
         assert data["code"] == 403
 
 
+@allure.epic("任务模块")
+@allure.feature("任务详情")
 class TestGetTaskDetail:
     """任务详情 GET /api/tasks/{id}"""
 
@@ -135,6 +142,8 @@ class TestGetTaskDetail:
         assert "不存在" in data["msg"]
 
 
+@allure.epic("任务模块")
+@allure.feature("更新任务")
 class TestUpdateTask:
     """更新任务 PUT /api/tasks/{id}"""
 
@@ -163,6 +172,8 @@ class TestUpdateTask:
         assert data["code"] != 200
 
 
+@allure.epic("任务模块")
+@allure.feature("任务状态流转")
 class TestUpdateTaskStatus:
     """任务状态流转 PUT /api/tasks/{id}/status"""
 
@@ -217,6 +228,8 @@ class TestUpdateTaskStatus:
         assert data["code"] != 200
 
 
+@allure.epic("任务模块")
+@allure.feature("删除任务")
 class TestDeleteTask:
     """删除任务 DELETE /api/tasks/{id}"""
 
@@ -238,6 +251,8 @@ class TestDeleteTask:
         assert data["code"] != 200
 
 
+@allure.epic("任务模块")
+@allure.feature("任务评论")
 class TestTaskComments:
     """任务评论"""
 

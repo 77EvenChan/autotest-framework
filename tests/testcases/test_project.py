@@ -1,8 +1,11 @@
 """项目管理接口测试用例"""
 import pytest
+import allure
 from tests.api.project_api import ProjectApi
 
 
+@allure.epic("项目模块")
+@allure.feature("创建项目")
 class TestCreateProject:
     """创建项目 POST /api/projects"""
 
@@ -43,6 +46,8 @@ class TestCreateProject:
         assert resp.status_code != 200
 
 
+@allure.epic("项目模块")
+@allure.feature("项目列表")
 class TestListProjects:
     """项目列表 GET /api/projects"""
 
@@ -74,6 +79,8 @@ class TestListProjects:
         assert data["data"]["total"] == 0
 
 
+@allure.epic("项目模块")
+@allure.feature("项目详情")
 class TestGetProjectDetail:
     """项目详情 GET /api/projects/{id}"""
 
@@ -103,6 +110,8 @@ class TestGetProjectDetail:
         assert data["code"] == 403
 
 
+@allure.epic("项目模块")
+@allure.feature("更新项目")
 class TestUpdateProject:
     """更新项目 PUT /api/projects/{id}"""
 
@@ -127,6 +136,8 @@ class TestUpdateProject:
         assert data["code"] == 403
 
 
+@allure.epic("项目模块")
+@allure.feature("删除项目")
 class TestDeleteProject:
     """删除项目 DELETE /api/projects/{id}"""
 
@@ -149,6 +160,8 @@ class TestDeleteProject:
         project_api.delete_project(project_id)
 
 
+@allure.epic("项目模块")
+@allure.feature("项目成员管理")
 class TestProjectMembers:
     """项目成员管理"""
 

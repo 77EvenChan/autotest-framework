@@ -1,8 +1,11 @@
 """数据统计接口测试用例"""
 import pytest
+import allure
 from tests.api.task_api import TaskApi
 
 
+@allure.epic("统计模块")
+@allure.feature("项目统计")
 class TestProjectStats:
     """项目统计 GET /api/stats/project/{id}"""
 
@@ -33,6 +36,8 @@ class TestProjectStats:
         assert data["code"] != 200
 
 
+@allure.epic("统计模块")
+@allure.feature("用户统计")
 class TestUserStats:
     """用户统计 GET /api/stats/user/{id}"""
 

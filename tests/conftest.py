@@ -1,9 +1,15 @@
 import pytest
+import allure
 from tests.api.auth_api import AuthApi
 from tests.api.project_api import ProjectApi
 from tests.api.task_api import TaskApi
 from tests.api.stats_api import StatsApi
 from tests.config.config_loader import load_config
+
+
+def pytest_configure(config):
+    """注册 Allure 环境信息"""
+    config.option.allure_report_dir = "reports/allure-results"
 
 
 @pytest.fixture(scope="session", autouse=True)

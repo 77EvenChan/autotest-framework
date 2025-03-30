@@ -100,6 +100,7 @@ jobs:
           REDIS_PORT: "6379"
           REDIS_PASSWORD: redis123
           SECRET_KEY: ci-test-secret-key
+          CI_DEBUG: "1"
         run: |
           cd sut
           nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 > /tmp/sut.log 2>&1 &

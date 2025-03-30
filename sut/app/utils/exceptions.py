@@ -37,7 +37,13 @@ async def biz_error_handler(request: Request, exc: BizError):
 
 
 async def global_exception_handler(request: Request, exc: Exception):
-    # 生产环境应该记录日志，这里简化处理
+    import os
+    import traceback
+    if os.getenv("CI_DEBUG"):
+        return JSONResponse(
+            status_code=500,
+            content={"code": 500, "msg": f"{type(exc).__name__}: {exc}", "data": None}
+        )
     return JSONResponse(
         status_code=500,
         content={"code": 500, "msg": "服务器内部错误，请稍后重试", "data": None}

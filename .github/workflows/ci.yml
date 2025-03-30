@@ -3,6 +3,10 @@
 
 name: 自动化测试
 
+# 强制使用 Node.js 24，消除 Node.js 20 弃用警告
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 on:
   push:
     branches: [main]
@@ -66,14 +70,27 @@ jobs:
 
       - name: 启动 SUT（后台运行）
         env:
-          DATABASE_URL: mysql+pymysql://taskflow:taskflow123@localhost:3306/taskflow
-          REDIS_URL: redis://localhost:6379/0
+          DB_HOST: 127.0.0.1
+          DB_PORT: "3306"
+          DB_USER: taskflow
+          DB_PASSWORD: taskflow123
+          DB_NAME: taskflow
+          REDIS_HOST: 127.0.0.1
+          REDIS_PORT: "6379"
           REDIS_PASSWORD: redis123
-          JWT_SECRET: ci-test-secret-key
+          SECRET_KEY: ci-test-secret-key
         run: |
           cd sut
-          uvicorn app.main:app --host 0.0.0.0 --port 8000 &
-          sleep 5  # 等待服务启动
+          nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 > /tmp/sut.log 2>&1 &
+          # 等待 SUT 就绪
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8000/health > /dev/null 2>&1; then
+              echo "SUT 已就绪"
+              break
+            fi
+            echo "等待 SUT 启动... ($i/30)"
+            sleep 2
+          done
 
       # Step 5: 运行测试
       - name: 运行 pytest
